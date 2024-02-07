@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Gradient } from '../Gradient';
-import '../GradientCanvas.css'; // Asume que tu CSS está en este archivo
+import { Gradient } from '../utils/Gradient';
 
 const GradientCanvas = () => {
   const canvasRef = useRef(null);
