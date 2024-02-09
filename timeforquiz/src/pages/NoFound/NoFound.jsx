@@ -1,7 +1,10 @@
 import React from "react";
 import logo from "assets/logo.svg";
+import { useNavigate } from "react-router-dom";
 
 const NoFound = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="z-1 absolute w-screen h-screen flex items-center justify-center">
       <div className="flex-col flex justify-center w-3/4 sm:w-1/4 animate-fade-up">
@@ -17,6 +20,9 @@ const NoFound = () => {
           <h2 className="text-center text-ellipsis text-xs sm:text-xs lg:text-lg text-white drop-shadow-md my-5">
             It looks like you're lost...
           </h2>
+          <button onClick={() => navigate("/")} className="btn btn-start btn-home my-4">
+            <span>Go back home</span>
+          </button>
         </div>
       </div>
     </div>

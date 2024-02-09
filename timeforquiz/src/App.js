@@ -1,6 +1,7 @@
 import GradientCanvas from './components/GradientCanvas';
 import { NextUIProvider } from "@nextui-org/react";
 import PageLoader from 'components/PageLoader';
+import Game from 'pages/Game/Game';
 import Home from 'pages/Home/Home';
 import NoFound from 'pages/NoFound/NoFound';
 import { GlobalLoading } from 'react-global-loading';
@@ -12,10 +13,11 @@ function App() {
     <NextUIProvider>
       <main className='main dark'>
         <GradientCanvas />
-        <div className='z-1 absolute w-screen h-screen flex items-center justify-center'>
+        <div className='z-1 absolute w-full h-screen flex items-center justify-center'>
         <BrowserRouter>
           <Routes>
             <Route path="/" exact element={<Home />} />
+            <Route path="/Game" element={<Game />} />
             <Route path="*" element={<NoFound />} />
           </Routes>
         </BrowserRouter>
@@ -23,7 +25,6 @@ function App() {
       </main>
       <GlobalLoading className="animate-fade" WrapperComponent={() => <PageLoader />} />
     </NextUIProvider>
-
   );
 }
 

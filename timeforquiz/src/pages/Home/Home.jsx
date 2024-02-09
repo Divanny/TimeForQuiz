@@ -12,17 +12,20 @@ import { Select, SelectItem } from "@nextui-org/react";
 import categories from "./helpers/categories";
 import difficulties from "./helpers/difficulties";
 import { showLoading } from 'react-global-loading';
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
   const [difficulty, setDifficulty] = useState(new Set(["easy"]));
   const [category, setCategory] = useState(new Set(["all"]));
+  const navigate = useNavigate();
 
   const startGame = () => {
     onClose();
     showLoading(true);
     setTimeout(() => {
       showLoading(false);
+      navigate("/Game")
     }, 1000);
   };
 

@@ -81,6 +81,10 @@ box-shadow: inset 0 0 0 .25rem #ffbe76;
   transform: translateY(5px);
 }
 
+.btn-home span:before{
+  content: '\f060'; 
+}
+
 #gradient-canvas {
   width:100%;
   height:100%;
@@ -88,4 +92,58 @@ box-shadow: inset 0 0 0 .25rem #ffbe76;
   --gradient-color-2: #5D1A30; 
   --gradient-color-3: #B06145;  
   --gradient-color-4: #761F33;
+}
+
+.glassmorphism {
+  background: rgba( 255, 255, 255, 0.25 );
+  backdrop-filter: blur( 6px );
+  -webkit-backdrop-filter: blur( 6px );
+  border-radius: 10px;
+  border: 1px solid rgba( 255, 255, 255, 0.18 );
+}
+
+.question-card {
+  cursor: pointer;
+  transition: all .5s ease 0s; 
+  box-shadow: 0 10px #1b0817;
+  background-color: #310f2a;
+}
+
+.question-card:hover{
+  box-shadow: 0 5px #1f081a;
+  transform: translateY(5px);
+}
+
+.question-card-selected {
+  background-color: #c7283d;
+  box-shadow: 0 5px #1b0817;
+  transform: translateY(5px);
+}
+
+.progress-bar {
+  width: 100%;
+  height: 1.2rem;
+  background: rgba( 255, 255, 255, 0.25 );
+  backdrop-filter: blur( 6px );
+  -webkit-backdrop-filter: blur( 6px );
+  border-radius: 10px;
+  border: 1px solid rgba( 255, 255, 255, 0.18 );  transition: width 15s ease-in-out;
+  padding: 5px 6px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  animation: fill-progress 15s linear forwards;
+  border-radius: 10px;
+}
+
+@keyframes fill-progress {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
 }
