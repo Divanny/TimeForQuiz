@@ -5,7 +5,6 @@ import Game from 'pages/Game/Game';
 import Home from 'pages/Home/Home';
 import NoFound from 'pages/NoFound/NoFound';
 import { GlobalLoading } from 'react-global-loading';
-import { Outlet } from "react-router-dom";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {

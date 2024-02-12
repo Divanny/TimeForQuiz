@@ -6,11 +6,52 @@ const Game = () => {
   // const [difficulty, setDifficulty] = useState("easy");
   // const [category, setCategory] = useState("all");
   const [showCountDown, setShowCountDown] = useState(true);
-  const [questionTime, setQuestionTime] = useState(15);
-  const [answers, setAnswers] = useState([{ description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit voluptatum debitis tempore alias officiis inventore repellendus", correct: false, selected: false }, { description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit voluptatum debitis tempore alias officiis inventore repellendus", correct: false, selected: false }, { description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit voluptatum debitis tempore alias officiis inventore repellendus", correct: true, selected: false }, { description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit voluptatum debitis tempore alias officiis inventore repellendus", correct: false, selected: false }]);
+  const [questionTime] = useState(15);
+  const [answers, setAnswers] = useState([{ description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit voluptatum debitis tempore alias officiis inventore repellendus", correct: false, selected: false, wrongAnswer: false, correctAnswer: false }, { description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit voluptatum debitis tempore alias officiis inventore repellendus", correct: false, selected: false, wrongAnswer: false, correctAnswer: false }, { description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit voluptatum debitis tempore alias officiis inventore repellendus", correct: true, selected: false, wrongAnswer: false, correctAnswer: false }, { description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit voluptatum debitis tempore alias officiis inventore repellendus", correct: false, selected: false, wrongAnswer: false, correctAnswer: false }]);
+  const [score, setScore] = useState(0);
+  const [timeOver, setTimeOver] = useState(false);
+
+  const showCorrectAnswer = () => {
+    setAnswers(prevAnswers => {
+      return prevAnswers.map(answer => {
+        if (answer.selected && answer.correct) {
+          return { ...answer, correctAnswer: true };
+        }
+        return answer;
+      });
+    });
+  };
+  
+  const showWrongAnswer = () => {
+    setAnswers(prevAnswers => {
+      return prevAnswers.map(answer => {
+        if (answer.selected && !answer.correct) {
+          return { ...answer, wrongAnswer: true };
+        }
+        return answer;
+      });
+    });
+  };
+  
+  const checkAnswer = () => {
+    setTimeout(() => {
+      setAnswers((prevAnswers) => {
+        setTimeOver(true);
+        if (prevAnswers.some((x) => x.selected && x.correct)) {
+          setScore(score + 1);
+          showCorrectAnswer();
+        }
+        else {
+          showWrongAnswer();
+        }
+        return prevAnswers;
+      });
+    }, questionTime * 1000);
+  }
 
   const handleFinish = () => {
     setShowCountDown(false);
+    checkAnswer();    
   };
 
   const handleSelectAnswer = (index) => {
@@ -44,13 +85,13 @@ const Game = () => {
               </h1>
             </div>
 
-            <div class="progress-bar glassmorphism">
-              <div class="progress-bar-fill bg-warning"> </div>
+            <div className="progress-bar glassmorphism">
+              <div className="progress-bar-fill bg-warning"> </div>
             </div>
 
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 my-4">
               {answers.map((answer, index) => (
-                <div key={index} onClick={() => handleSelectAnswer(index)} className={`question-card p-4 text-center text-white rounded border-[#292f46] justify-center items-center flex select-none ${answer.selected ? "question-card-selected" : ""}`}><div><b>{String.fromCharCode(97 + index)}.</b> {answer.description}</div></div>
+                <div key={index} onClick={() => handleSelectAnswer(index)} className={`question-card p-4 text-center text-white rounded border-[#292f46] justify-center items-center flex select-none ${answer.wrongAnswer ? "bg-red-600" : ""} ${answer.correctAnswer ? "bg-green-600" : ""} ${answer.selected ? "question-card-selected" : ""}`}><div><b>{String.fromCharCode(97 + index)}.</b> {answer.description}</div></div>
               ))}
             </div>
           </div>
