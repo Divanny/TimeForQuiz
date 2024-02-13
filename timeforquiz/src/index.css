@@ -115,10 +115,19 @@ box-shadow: inset 0 0 0 .25rem #ffbe76;
 }
 
 .question-card-selected {
-  background-color: #c7283d;
+  background-color: #721260;
   box-shadow: 0 5px #1b0817;
   transform: translateY(5px);
 }
+
+.question-card-correct {
+  background-color: #06a58b !important;
+}
+
+.question-card-wrong {
+  background-color: #CB1842 !important;
+}
+
 
 .progress-bar {
   width: 100%;

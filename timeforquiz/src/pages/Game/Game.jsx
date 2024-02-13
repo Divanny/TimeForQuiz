@@ -11,39 +11,42 @@ const Game = () => {
   const [score, setScore] = useState(0);
   const [timeOver, setTimeOver] = useState(false);
 
-  const showCorrectAnswer = () => {
-    setAnswers(prevAnswers => {
-      return prevAnswers.map(answer => {
-        if (answer.selected && answer.correct) {
-          return { ...answer, correctAnswer: true };
-        }
-        return answer;
-      });
+  const showCorrectAnswer = (actualAnswers) => {
+    const updatedAnswers = actualAnswers.map((answer) => {
+      if (answer.correct) {
+        return { ...answer, correctAnswer: true };
+      }
+      return answer;
     });
+    
+    setAnswers(updatedAnswers);
   };
   
-  const showWrongAnswer = () => {
-    setAnswers(prevAnswers => {
-      return prevAnswers.map(answer => {
-        if (answer.selected && !answer.correct) {
-          return { ...answer, wrongAnswer: true };
-        }
-        return answer;
-      });
-    });
+  const showWrongAnswer = (actualAnswers) => {
+    const updatedAnswers = actualAnswers.map((answer) => {
+      if (answer.selected) {
+        return { ...answer, wrongAnswer: true };
+      }
+      if (answer.correct) {
+        return { ...answer, correctAnswer: true };
+      }
+      return answer;
+    }); 
+
+    setAnswers(updatedAnswers);
   };
   
   const checkAnswer = () => {
     setTimeout(() => {
       setAnswers((prevAnswers) => {
-        setTimeOver(true);
         if (prevAnswers.some((x) => x.selected && x.correct)) {
           setScore(score + 1);
-          showCorrectAnswer();
+          showCorrectAnswer(prevAnswers);
         }
         else {
-          showWrongAnswer();
+          showWrongAnswer(prevAnswers);
         }
+        setTimeOver(true);
         return prevAnswers;
       });
     }, questionTime * 1000);
@@ -55,6 +58,7 @@ const Game = () => {
   };
 
   const handleSelectAnswer = (index) => {
+    if (timeOver) return;
     const updatedAnswers = answers.map((answer, i) => {
       if (i === index) {
         return { ...answer, selected: true };
@@ -66,7 +70,7 @@ const Game = () => {
   };
 
   return (
-    <div className="z-1 absolute w-full md:h-screen top-0 left-0 flex items-center justify-center">
+    <div className="z-1 absolute w-full md:h-screen top-0 left-0 flex items-center justify-center shadow-4xlZ">
       {showCountDown && <CountDown seconds={3} onFinish={handleFinish} />}
       {!showCountDown && (
         <div className="flex-col flex justify-center w-3/4 sm:w-3/4 animate-fade-up">
@@ -91,7 +95,7 @@ const Game = () => {
 
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 my-4">
               {answers.map((answer, index) => (
-                <div key={index} onClick={() => handleSelectAnswer(index)} className={`question-card p-4 text-center text-white rounded border-[#292f46] justify-center items-center flex select-none ${answer.wrongAnswer ? "bg-red-600" : ""} ${answer.correctAnswer ? "bg-green-600" : ""} ${answer.selected ? "question-card-selected" : ""}`}><div><b>{String.fromCharCode(97 + index)}.</b> {answer.description}</div></div>
+                <div key={index} onClick={() => handleSelectAnswer(index)} className={`question-card p-4 text-center text-white rounded border-[#292f46] justify-center items-center flex select-none ${answer.wrongAnswer ? "question-card-wrong" : ""} ${answer.correctAnswer ? "question-card-correct" : ""} ${answer.selected && !timeOver ? "question-card-selected" : ""}`}><div><b>{String.fromCharCode(97 + index)}.</b> {answer.description}</div></div>
               ))}
             </div>
           </div>
